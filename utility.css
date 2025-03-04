@@ -1132,3 +1132,56 @@
   padding-left: 0;
   list-style: none;
 }
+
+/* -------------------- */
+/* Containers */
+/* -------------------- */
+
+/* Container Fluid: full width */
+.container-fluid {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 1rem; /* optional: adjust horizontal padding */
+}
+
+/* Container 2XL: 90rem */
+.container-2xl {
+  max-width: 90rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Container XL: 70rem */
+.container-xl {
+  max-width: 70rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Container LG: 60rem */
+.container-lg {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Container MD: 45rem */
+.container-md {
+  max-width: 45rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Container SM: 30rem */
+.container-sm {
+  max-width: 30rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Container XS: 20rem */
+.container-xs {
+  max-width: 20rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
