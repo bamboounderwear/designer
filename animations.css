@@ -1,0 +1,966 @@
+/* 
+  =============================================================================
+  Animation Utility Classes
+  =============================================================================
+*/
+
+/* 
+  1. Animation Durations
+  -------------------------
+  Control how long animations take to complete one cycle
+*/
+.duration-75 {
+    animation-duration: 75ms;
+  }
+  
+  .duration-100 {
+    animation-duration: 100ms;
+  }
+  
+  .duration-150 {
+    animation-duration: 150ms;
+  }
+  
+  .duration-200 {
+    animation-duration: 200ms;
+  }
+  
+  .duration-300 {
+    animation-duration: 300ms;
+  }
+  
+  .duration-500 {
+    animation-duration: 500ms;
+  }
+  
+  .duration-700 {
+    animation-duration: 700ms;
+  }
+  
+  .duration-1000 {
+    animation-duration: 1000ms;
+  }
+  
+  .duration-1500 {
+    animation-duration: 1500ms;
+  }
+  
+  .duration-2000 {
+    animation-duration: 2000ms;
+  }
+  
+  .duration-2500 {
+    animation-duration: 2500ms;
+  }
+  
+  .duration-3000 {
+    animation-duration: 3000ms;
+  }
+  
+  /* 
+    2. Animation Timing Functions
+    -------------------------
+    Control the acceleration curve of animations
+  */
+  .ease-linear {
+    animation-timing-function: linear;
+  }
+  
+  .ease-in {
+    animation-timing-function: cubic-bezier(0.4, 0, 1, 1);
+  }
+  
+  .ease-out {
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+  
+  .ease-in-out {
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .ease-bounce {
+    animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+  
+  .ease-elastic {
+    animation-timing-function: cubic-bezier(0.68, -0.6, 0.32, 1.6);
+  }
+  
+  /* 
+    3. Animation Iteration Count
+    -------------------------
+    Control how many times an animation repeats
+  */
+  .repeat-1 {
+    animation-iteration-count: 1;
+  }
+  
+  .repeat-2 {
+    animation-iteration-count: 2;
+  }
+  
+  .repeat-3 {
+    animation-iteration-count: 3;
+  }
+  
+  .repeat-infinite {
+    animation-iteration-count: infinite;
+  }
+  
+  /* 
+    4. Animation Direction
+    -------------------------
+    Control the direction of animation playback
+  */
+  .direction-normal {
+    animation-direction: normal;
+  }
+  
+  .direction-reverse {
+    animation-direction: reverse;
+  }
+  
+  .direction-alternate {
+    animation-direction: alternate;
+  }
+  
+  .direction-alternate-reverse {
+    animation-direction: alternate-reverse;
+  }
+  
+  /* 
+    5. Animation Fill Mode
+    -------------------------
+    Control how styles are applied before and after animation
+  */
+  .fill-none {
+    animation-fill-mode: none;
+  }
+  
+  .fill-forwards {
+    animation-fill-mode: forwards;
+  }
+  
+  .fill-backwards {
+    animation-fill-mode: backwards;
+  }
+  
+  .fill-both {
+    animation-fill-mode: both;
+  }
+  
+  /* 
+    6. Animation Play State
+    -------------------------
+    Control whether animations are running or paused
+  */
+  .running {
+    animation-play-state: running;
+  }
+  
+  .paused {
+    animation-play-state: paused;
+  }
+  
+  /* 
+    7. Animation Delay
+    -------------------------
+    Control when animations start
+  */
+  .delay-0 {
+    animation-delay: 0ms;
+  }
+  
+  .delay-75 {
+    animation-delay: 75ms;
+  }
+  
+  .delay-100 {
+    animation-delay: 100ms;
+  }
+  
+  .delay-150 {
+    animation-delay: 150ms;
+  }
+  
+  .delay-200 {
+    animation-delay: 200ms;
+  }
+  
+  .delay-300 {
+    animation-delay: 300ms;
+  }
+  
+  .delay-500 {
+    animation-delay: 500ms;
+  }
+  
+  .delay-700 {
+    animation-delay: 700ms;
+  }
+  
+  .delay-1000 {
+    animation-delay: 1000ms;
+  }
+  
+  /* 
+    8. Common Animation Keyframes
+    -------------------------
+    Predefined animation patterns
+  */
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes fade-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  
+  @keyframes slide-in-up {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slide-in-down {
+    from {
+      transform: translateY(-20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slide-in-left {
+    from {
+      transform: translateX(-20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slide-in-right {
+    from {
+      transform: translateX(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes zoom-in {
+    from {
+      transform: scale(0.9);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes zoom-out {
+    from {
+      transform: scale(1.1);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-30px);
+    }
+    60% {
+      transform: translateY(-15px);
+    }
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  @keyframes shake {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+      transform: translateX(-10px);
+    }
+    20%, 40%, 60%, 80% {
+      transform: translateX(10px);
+    }
+  }
+  
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes ping {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    75%, 100% {
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes blink {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+  
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+  
+  @keyframes flip {
+    0% {
+      transform: perspective(400px) rotateY(0);
+    }
+    100% {
+      transform: perspective(400px) rotateY(360deg);
+    }
+  }
+  
+  @keyframes swing {
+    20% {
+      transform: rotate(15deg);
+    }
+    40% {
+      transform: rotate(-10deg);
+    }
+    60% {
+      transform: rotate(5deg);
+    }
+    80% {
+      transform: rotate(-5deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+  
+  /* 
+    9. Animation Classes
+    -------------------------
+    Ready-to-use animation utilities that apply keyframes
+  */
+  .animate-fade-in {
+    animation-name: fade-in;
+    animation-duration: 300ms;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: both;
+  }
+  
+  .animate-fade-out {
+    animation-name: fade-out;
+    animation-duration: 300ms;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: both;
+  }
+  
+  .animate-slide-in-up {
+    animation-name: slide-in-up;
+    animation-duration: 300ms;
+    animation-timing-function: ease-out;
+    animation-fill-mode: both;
+  }
+  
+  .animate-slide-in-down {
+    animation-name: slide-in-down;
+    animation-duration: 300ms;
+    animation-timing-function: ease-out;
+    animation-fill-mode: both;
+  }
+  
+  .animate-slide-in-left {
+    animation-name: slide-in-left;
+    animation-duration: 300ms;
+    animation-timing-function: ease-out;
+    animation-fill-mode: both;
+  }
+  
+  .animate-slide-in-right {
+    animation-name: slide-in-right;
+    animation-duration: 300ms;
+    animation-timing-function: ease-out;
+    animation-fill-mode: both;
+  }
+  
+  .animate-zoom-in {
+    animation-name: zoom-in;
+    animation-duration: 300ms;
+    animation-timing-function: ease-out;
+    animation-fill-mode: both;
+  }
+  
+  .animate-zoom-out {
+    animation-name: zoom-out;
+    animation-duration: 300ms;
+    animation-timing-function: ease-out;
+    animation-fill-mode: both;
+  }
+  
+  .animate-bounce {
+    animation-name: bounce;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+  }
+  
+  .animate-pulse {
+    animation-name: pulse;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+  }
+  
+  .animate-shake {
+    animation-name: shake;
+    animation-duration: 500ms;
+    animation-timing-function: ease-in-out;
+  }
+  
+  .animate-spin {
+    animation-name: spin;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+  
+  .animate-ping {
+    animation-name: ping;
+    animation-duration: 1s;
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    animation-iteration-count: infinite;
+  }
+  
+  .animate-blink {
+    animation-name: blink;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+  }
+  
+  .animate-float {
+    animation-name: float;
+    animation-duration: 3s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+  }
+  
+  .animate-flip {
+    animation-name: flip;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+  }
+  
+  .animate-swing {
+    animation-name: swing;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+  }
+  
+  /* 
+    10. Animation Variants
+    -------------------------
+    Variations of common animations with different speeds
+  */
+  .animate-fade-in-fast {
+    animation-name: fade-in;
+    animation-duration: 150ms;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: both;
+  }
+  
+  .animate-fade-in-slow {
+    animation-name: fade-in;
+    animation-duration: 700ms;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: both;
+  }
+  
+  .animate-spin-slow {
+    animation-name: spin;
+    animation-duration: 3s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+  
+  .animate-spin-fast {
+    animation-name: spin;
+    animation-duration: 500ms;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+  
+  /* 
+    11. Staggered Animation Utilities
+    -------------------------
+    Classes to create staggered animations for lists or groups
+  */
+  .stagger-item-1 {
+    animation-delay: 100ms;
+  }
+  
+  .stagger-item-2 {
+    animation-delay: 200ms;
+  }
+  
+  .stagger-item-3 {
+    animation-delay: 300ms;
+  }
+  
+  .stagger-item-4 {
+    animation-delay: 400ms;
+  }
+  
+  .stagger-item-5 {
+    animation-delay: 500ms;
+  }
+  
+  .stagger-item-6 {
+    animation-delay: 600ms;
+  }
+  
+  .stagger-item-7 {
+    animation-delay: 700ms;
+  }
+  
+  .stagger-item-8 {
+    animation-delay: 800ms;
+  }
+  
+  .stagger-item-9 {
+    animation-delay: 900ms;
+  }
+  
+  .stagger-item-10 {
+    animation-delay: 1000ms;
+  }
+  
+  /* 
+    12. Hover Animation Triggers
+    -------------------------
+    Animation classes that activate on hover
+  */
+  .hover-animate {
+    transition: all 0.3s ease;
+  }
+  
+  .hover-grow:hover {
+    transform: scale(1.05);
+  }
+  
+  .hover-shrink:hover {
+    transform: scale(0.95);
+  }
+  
+  .hover-rotate:hover {
+    transform: rotate(5deg);
+  }
+  
+  .hover-rotate-right:hover {
+    transform: rotate(5deg);
+  }
+  
+  .hover-rotate-left:hover {
+    transform: rotate(-5deg);
+  }
+  
+  .hover-translate-up:hover {
+    transform: translateY(-5px);
+  }
+  
+  .hover-translate-down:hover {
+    transform: translateY(5px);
+  }
+  
+  .hover-translate-left:hover {
+    transform: translateX(-5px);
+  }
+  
+  .hover-translate-right:hover {
+    transform: translateX(5px);
+  }
+  
+  .hover-shadow:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+  
+  .hover-brightness:hover {
+    filter: brightness(1.1);
+  }
+  
+  /* 
+    13. Animation Presets for Common UI Elements
+    -------------------------
+    Ready-to-use animations for specific UI components
+  */
+  .button-press {
+    transition: transform 0.1s ease;
+  }
+  
+  .button-press:active {
+    transform: scale(0.97);
+  }
+  
+  .card-hover {
+    transition: all 0.3s ease;
+  }
+  
+  .card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+  
+  .menu-item-hover {
+    position: relative;
+    transition: all 0.2s ease;
+  }
+  
+  .menu-item-hover::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: currentColor;
+    transition: width 0.3s ease;
+  }
+  
+  .menu-item-hover:hover::after {
+    width: 100%;
+  }
+  
+  .input-focus {
+    transition: all 0.2s ease;
+  }
+  
+  .input-focus:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  /* 
+    14. Loading Animations
+    -------------------------
+    Animations specifically designed for loading states
+  */
+  .loading-dots {
+    position: relative;
+  }
+  
+  .loading-dots::after {
+    content: '...';
+    animation: loading-dots 1.5s infinite;
+    display: inline-block;
+    width: 1em;
+    text-align: left;
+  }
+  
+  @keyframes loading-dots {
+    0% { content: '.'; }
+    33% { content: '..'; }
+    66% { content: '...'; }
+  }
+  
+  .loading-spinner {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-left-color: currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  .loading-pulse {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    background-color: currentColor;
+    border-radius: 50%;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  
+  /* 
+    15. Attention-Seeking Animations
+    -------------------------
+    Animations designed to draw user attention
+  */
+  .attention-shake {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+  
+  .attention-pulse {
+    animation: pulse 1s cubic-bezier(.36,.07,.19,.97) both;
+    transform: translate3d(0, 0, 0);
+  }
+  
+  .attention-bounce {
+    animation: bounce 1s both;
+  }
+  
+  .attention-flash {
+    animation: flash 1s both;
+  }
+  
+  @keyframes flash {
+    0%, 50%, 100% {
+      opacity: 1;
+    }
+    25%, 75% {
+      opacity: 0.5;
+    }
+  }
+  
+  /* 
+    16. Responsive Animation Control
+    -------------------------
+    Control animations based on viewport size
+  */
+  @media (max-width: 767px) {
+    .animate-none-xs {
+      animation: none !important;
+    }
+    
+    .transition-none-xs {
+      transition: none !important;
+    }
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    .motion-safe {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+  
+  .motion-reduce {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  @media (prefers-reduced-motion: no-preference) {
+    .motion-reduce-if-requested {
+      /* Animations will work normally when no motion reduction is requested */
+    }
+  }
+  
+  /* 
+    17. Animation Composition Utilities
+    -------------------------
+    Utilities for combining multiple animations
+  */
+  .compose-fade-up {
+    animation-name: fade-in, slide-in-up;
+    animation-duration: 500ms;
+    animation-timing-function: ease-out;
+    animation-fill-mode: both;
+  }
+  
+  .compose-fade-down {
+    animation-name: fade-in, slide-in-down;
+    animation-duration: 500ms;
+    animation-timing-function: ease-out;
+    animation-fill-mode: both;
+  }
+  
+  .compose-fade-left {
+    animation-name: fade-in, slide-in-left;
+    animation-duration: 500ms;
+    animation-timing-function: ease-out;
+    animation-fill-mode: both;
+  }
+  
+  .compose-fade-right {
+    animation-name: fade-in, slide-in-right;
+    animation-duration: 500ms;
+    animation-timing-function: ease-out;
+    animation-fill-mode: both;
+  }
+  
+  /* 
+    18. Animation Utilities for Page Transitions
+    -------------------------
+    Animations designed for page transitions in SPAs
+  */
+  .page-enter {
+    animation: fade-in 300ms ease-out both;
+  }
+  
+  .page-exit {
+    animation: fade-out 300ms ease-in both;
+  }
+  
+  .page-enter-up {
+    animation: slide-in-up 300ms ease-out both, fade-in 300ms ease-out both;
+  }
+  
+  .page-exit-down {
+    animation: slide-in-down 300ms ease-in reverse both, fade-out 300ms ease-in both;
+  }
+  
+  /* 
+    19. 3D Animation Utilities
+    -------------------------
+    Utilities for creating 3D animation effects
+  */
+  .perspective-100 {
+    perspective: 100px;
+  }
+  
+  .perspective-500 {
+    perspective: 500px;
+  }
+  
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  
+  .rotate3d-flip-x {
+    transform-style: preserve-3d;
+    animation: flip-x 1s ease-in-out both;
+  }
+  
+  .rotate3d-flip-y {
+    transform-style: preserve-3d;
+    animation: flip-y 1s ease-in-out both;
+  }
+  
+  @keyframes flip-x {
+    0% {
+      transform: rotateX(0);
+    }
+    100% {
+      transform: rotateX(360deg);
+    }
+  }
+  
+  @keyframes flip-y {
+    0% {
+      transform: rotateY(0);
+    }
+    100% {
+      transform: rotateY(360deg);
+    }
+  }
+  
+  /* 
+    20. Animation Utilities for Scroll-Triggered Animations
+    -------------------------
+    Classes to be used with JavaScript for scroll-triggered animations
+  */
+  .reveal-on-scroll {
+    opacity: 0;
+    transition: all 0.5s ease;
+  }
+  
+  .reveal-on-scroll.revealed {
+    opacity: 1;
+  }
+  
+  .reveal-up-on-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+  }
+  
+  .reveal-up-on-scroll.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .reveal-down-on-scroll {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.5s ease;
+  }
+  
+  .reveal-down-on-scroll.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .reveal-left-on-scroll {
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.5s ease;
+  }
+  
+  .reveal-left-on-scroll.revealed {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+  .reveal-right-on-scroll {
+    opacity: 0;
+    transform: translateX(20px);
+    transition: all 0.5s ease;
+  }
+  
+  .reveal-right-on-scroll.revealed {
+    opacity: 1;
+    transform: translateX(0);
+  }
