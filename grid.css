@@ -4,12 +4,11 @@
 .grid {
     display: flex;
     flex-wrap: wrap;
-    /* Use the custom property for gap, defaulting to 0 */
+    /* Apply gap using the custom property, defaulting to 0 */
     gap: var(--grid-gap, 0);
   }
   
   .col {
-    /* On mobile, columns stack (no gap adjustment needed) */
     flex: 0 0 100%;
     max-width: 100%;
     box-sizing: border-box;
@@ -21,67 +20,55 @@
   .gap-1 { --grid-gap: 1rem; }
   .gap-2 { --grid-gap: 2rem; }
   .gap-3 { --grid-gap: 3rem; }
-  /* Add more gap utilities as needed */
-  
+  .gap-4 { --grid-gap: 4rem; }
+  .gap-5 { --grid-gap: 5rem; }
   
   /* Medium Breakpoint (min-width: 768px) */
   @media (min-width: 768px) {
-    /* 1 Column: no gap subtraction needed */
     .grid.col-1-md .col {
       flex: 0 0 100%;
       max-width: 100%;
     }
-    /* 2 Columns: subtract half the gap from each column */
     .grid.col-2-md .col {
       flex: 0 0 calc(50% - calc(var(--grid-gap, 0) / 2));
       max-width: calc(50% - calc(var(--grid-gap, 0) / 2));
     }
-    /* 3 Columns: subtract 2/3 of the gap from each column */
     .grid.col-3-md .col {
       flex: 0 0 calc(33.3333% - calc((2 * var(--grid-gap, 0)) / 3));
       max-width: calc(33.3333% - calc((2 * var(--grid-gap, 0)) / 3));
     }
-    /* 4 Columns: subtract 3/4 of the gap from each column */
     .grid.col-4-md .col {
       flex: 0 0 calc(25% - calc((3 * var(--grid-gap, 0)) / 4));
       max-width: calc(25% - calc((3 * var(--grid-gap, 0)) / 4));
     }
-    /* 5 Columns */
     .grid.col-5-md .col {
       flex: 0 0 calc(20% - calc((4 * var(--grid-gap, 0)) / 5));
       max-width: calc(20% - calc((4 * var(--grid-gap, 0)) / 5));
     }
-    /* 6 Columns */
     .grid.col-6-md .col {
       flex: 0 0 calc(16.6667% - calc((5 * var(--grid-gap, 0)) / 6));
       max-width: calc(16.6667% - calc((5 * var(--grid-gap, 0)) / 6));
     }
-    /* 7 Columns */
     .grid.col-7-md .col {
       flex: 0 0 calc(14.2857% - calc((6 * var(--grid-gap, 0)) / 7));
       max-width: calc(14.2857% - calc((6 * var(--grid-gap, 0)) / 7));
     }
-    /* 8 Columns */
     .grid.col-8-md .col {
       flex: 0 0 calc(12.5% - calc((7 * var(--grid-gap, 0)) / 8));
       max-width: calc(12.5% - calc((7 * var(--grid-gap, 0)) / 8));
     }
-    /* 9 Columns */
     .grid.col-9-md .col {
       flex: 0 0 calc(11.1111% - calc((8 * var(--grid-gap, 0)) / 9));
       max-width: calc(11.1111% - calc((8 * var(--grid-gap, 0)) / 9));
     }
-    /* 10 Columns */
     .grid.col-10-md .col {
       flex: 0 0 calc(10% - calc((9 * var(--grid-gap, 0)) / 10));
       max-width: calc(10% - calc((9 * var(--grid-gap, 0)) / 10));
     }
-    /* 11 Columns */
     .grid.col-11-md .col {
       flex: 0 0 calc(9.0909% - calc((10 * var(--grid-gap, 0)) / 11));
       max-width: calc(9.0909% - calc((10 * var(--grid-gap, 0)) / 11));
     }
-    /* 12 Columns */
     .grid.col-12-md .col {
       flex: 0 0 calc(8.3333% - calc((11 * var(--grid-gap, 0)) / 12));
       max-width: calc(8.3333% - calc((11 * var(--grid-gap, 0)) / 12));
