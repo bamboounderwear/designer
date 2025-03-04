@@ -1,0 +1,401 @@
+/* Base.css – CSS Reset, Normalization, Root Values, and Basic Responsive Styling */
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Universal
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  Root
+  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+  :root {
+    /* Base values – adjust variables as needed */
+    --font-size-base: 16px;
+    --line-height-base: 1.5;
+  }
+  
+  html {
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-base);
+    -webkit-text-size-adjust: 100%;
+    tab-size: 4;
+  }
+  
+  body {
+    margin: 0;
+    line-height: inherit;
+  }
+  
+  /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  Content sectioning
+  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    font-weight: inherit;
+    line-height: 1.2;
+  }
+  
+  h1 {}
+  h2 {}
+  h3 {}
+  h4 {}
+  h5 {}
+  h6 {}
+  
+  header {
+    display: block;
+  }
+  
+  nav {
+    display: block;
+  }
+  
+  nav ul,
+  nav ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  nav li {
+    list-style: none;
+  }
+  
+  nav a {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  nav a:visited {}
+  nav a:hover {
+    text-decoration: underline;
+  }
+  nav a:active {}
+  
+  main {
+    display: block;
+  }
+  
+  article {
+    display: block;
+  }
+  
+  section {
+    display: block;
+  }
+  
+  aside {
+    display: block;
+  }
+  
+  search {
+    display: block;
+  }
+  
+  footer {
+    display: block;
+  }
+  
+  address {
+    font-style: normal;
+  }
+  
+  /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  Text block content
+  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+  p,
+  ol,
+  ul,
+  pre,
+  blockquote,
+  figure,
+  hr,
+  dl {
+    margin: 0;
+    padding: 0;
+  }
+  
+  p {}
+  
+  ol, ul {}
+  ol {}
+  ul {}
+  li {}
+  ol ol,
+  ol ul,
+  ul ul,
+  ul ol {}
+  li li {}
+  
+  pre {
+    font-family: monospace, monospace;
+  }
+  pre code,
+  pre samp {}
+  
+  blockquote {
+    margin: 0;
+  }
+  
+  figure {}
+  figcaption {}
+  
+  hr {
+    /* Minimal rule – override if needed */
+    border: none;
+    border-top: 1px solid #ccc;
+  }
+  
+  dl {}
+  dt {}
+  dd {}
+  
+  /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  Inline text semantics
+  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+  a {}
+  a:visited {}
+  a:hover {}
+  a:active {}
+  
+  strong {}
+  b {}
+  
+  em {}
+  i {}
+  
+  q, cite {}
+  /* Remove default quotation marks in q elements */
+  q::before,
+  q::after {
+    content: "";
+  }
+  
+  s {}
+  
+  mark {}
+  
+  small {}
+  sub {}
+  sup {}
+  
+  code {}
+  
+  dfn {}
+  abbr {}
+  abbr[title] {}
+  
+  var {}
+  kbd, kbd kbd {}
+  samp {}
+  
+  u {}
+  
+  data {}
+  time {}
+  
+  /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  Demarcating edits
+  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+  del {
+    text-decoration: line-through;
+  }
+  ins {
+    text-decoration: underline;
+  }
+  
+  /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  Embedded content
+  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+  img,
+  svg,
+  video,
+  canvas,
+  audio,
+  object {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+  
+  noscript {}
+  
+  /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  Table content
+  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+  
+  caption,
+  th,
+  td {
+    text-align: left;
+    font-weight: normal;
+  }
+  
+  /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  Forms
+  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+  fieldset {
+    border: 1px solid #ccc;
+    padding: 0.35em 0.625em 0.75em;
+    margin: 0 0 1rem 0;
+  }
+  fieldset:disabled {}
+  
+  legend {
+    padding: 0;
+    font-size: 1em;
+  }
+  
+  form {}
+  
+  label {}
+  
+  ::placeholder {}
+  :focus::placeholder {}
+  
+  input,
+  textarea,
+  select,
+  button {
+    font: inherit;
+    color: inherit;
+    margin: 0;
+  }
+  
+  /* Common input types */
+  textarea,
+  input[type="text"],
+  input[type="password"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="search"],
+  input[type="url"],
+  input[type="date"],
+  input[type="datetime-local"],
+  input[type="month"],
+  input[type="week"],
+  input[type="time"] {}
+  
+  textarea {}
+  input[type="text"] {}
+  input[type="password"] {}
+  input[type="email"] {}
+  input[type="tel"] {}
+  input[type="number"] {}
+  input[type="search"] {}
+  input[type="url"] {}
+  input[type="date"] {}
+  input[type="datetime-local"] {}
+  input[type="month"] {}
+  input[type="week"] {}
+  input[type="time"] {}
+  
+  /* Tick boxes and radio buttons */
+  input[type="checkbox"],
+  input[type="radio"] {}
+  input[type="checkbox"]:checked,
+  input[type="radio"]:checked {}
+  input[type="checkbox"] {}
+  input[type="checkbox"]:checked {}
+  input[type="radio"] {}
+  input[type="radio"]:checked {}
+  
+  /* Other input fields */
+  input[type="file"] {}
+  input[type="color"] {}
+  input[type="range"] {}
+  
+  select {}
+  optgroup {}
+  option {}
+  option:checked {}
+  datalist {}
+  
+  button,
+  input[type="submit"] {}
+  button:disabled,
+  input[type="submit"]:disabled {}
+  button.secondary {}
+  button.secondary:disabled {}
+  
+  /* Form validation (minimal progressive enhancement) */
+  form.interacted:invalid {}
+  form.interacted :invalid,
+  form .touched:invalid {}
+  :user-invalid {}
+  :-moz-ui-invalid {}
+  
+  output {}
+  
+  progress {}
+  meter {}
+  
+  /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  Interactive elements
+  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+  details {
+    display: block;
+  }
+  details[open] {}
+  
+  summary {
+    display: list-item;
+  }
+  details[open] summary {}
+  
+  dialog {}
+  dialog::backdrop {}
+  
+  /* Basic focus styles for accessibility */
+  :focus {
+    outline: 2px solid;
+    outline-offset: 2px;
+  }
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+  :focus-visible {}
+  
+  [inert],
+  [inert] * {}
+  
+  /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  Media queries
+  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      transition: none !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    /* Dark mode adjustments may be added here if desired */
+  }
+  
+  @media (orientation: portrait) {
+    /* Adjustments for portrait orientation if needed */
+  }
+  
+  @media (orientation: landscape) {
+    /* Adjustments for landscape orientation if needed */
+  }
+  
+  @media print {
+    *, *::before, *::after {
+      text-shadow: none !important;
+      color: #000 !important;
+      background: transparent !important;
+    }
+  }
+  

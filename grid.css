@@ -1,0 +1,46 @@
+/* Simple Responsive Grid Utility CSS */
+
+/* Base styles: Mobile first – columns stack */
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .col {
+    flex: 0 0 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Medium Breakpoint (min-width: 768px) */
+  @media (min-width: 768px) {
+    .grid.col-1-md .col { flex: 0 0 100%;    max-width: 100%;    }
+    .grid.col-2-md .col { flex: 0 0 50%;     max-width: 50%;     }
+    .grid.col-3-md .col { flex: 0 0 33.3333%;max-width: 33.3333%;}
+    .grid.col-4-md .col { flex: 0 0 25%;     max-width: 25%;     }
+    .grid.col-5-md .col { flex: 0 0 20%;     max-width: 20%;     }
+    .grid.col-6-md .col { flex: 0 0 16.6667%;max-width: 16.6667%;}
+    .grid.col-7-md .col { flex: 0 0 14.2857%;max-width: 14.2857%;}
+    .grid.col-8-md .col { flex: 0 0 12.5%;   max-width: 12.5%;   }
+    .grid.col-9-md .col { flex: 0 0 11.1111%;max-width: 11.1111%;}
+    .grid.col-10-md .col { flex: 0 0 10%;    max-width: 10%;     }
+    .grid.col-11-md .col { flex: 0 0 9.0909%; max-width: 9.0909%; }
+    .grid.col-12-md .col { flex: 0 0 8.3333%; max-width: 8.3333%; }
+  }
+  
+  /* Large Breakpoint (min-width: 1024px) */
+  @media (min-width: 1024px) {
+    .grid.col-1-lg .col { flex: 0 0 100%;    max-width: 100%;    }
+    .grid.col-2-lg .col { flex: 0 0 50%;     max-width: 50%;     }
+    .grid.col-3-lg .col { flex: 0 0 33.3333%;max-width: 33.3333%;}
+    .grid.col-4-lg .col { flex: 0 0 25%;     max-width: 25%;     }
+    .grid.col-5-lg .col { flex: 0 0 20%;     max-width: 20%;     }
+    .grid.col-6-lg .col { flex: 0 0 16.6667%;max-width: 16.6667%;}
+    .grid.col-7-lg .col { flex: 0 0 14.2857%;max-width: 14.2857%;}
+    .grid.col-8-lg .col { flex: 0 0 12.5%;   max-width: 12.5%;   }
+    .grid.col-9-lg .col { flex: 0 0 11.1111%;max-width: 11.1111%;}
+    .grid.col-10-lg .col { flex: 0 0 10%;    max-width: 10%;     }
+    .grid.col-11-lg .col { flex: 0 0 9.0909%; max-width: 9.0909%; }
+    .grid.col-12-lg .col { flex: 0 0 8.3333%; max-width: 8.3333%; }
+  }
+  
