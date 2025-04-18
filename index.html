@@ -1,634 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Bootstrap Grid Layout Builder</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <style>
-        body, html {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-        .grid-builder-toolbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            z-index: 2000;
-            background: #f8f9fa;
-            border-bottom: 1px solid #dee2e6;
-        }
-        .grid-builder-canvas {
-            margin-top: 72px;
-            padding: 32px;
-            min-height: calc(100vh - 72px);
-            background: #f9fafb;
-        }
-        .row-builder {
-            border: 2px dashed #6c757d;
-            padding: 12px 8px;
-            margin-bottom: 18px;
-            background: #fff;
-            position: relative;
-        }
-        .col-builder {
-            border: 2px solid #f8f9fa;
-            border-radius: 8px;
-            min-height: 64px;
-            background: #e9ecef;
-            margin-bottom: 8px;
-            margin-top: 4px;
-            position: relative;
-        }
-        .col-builder.selected, .row-builder.selected {
-            border-color: #0d6efd !important;
-            box-shadow: 0 0 0 2px #0d6efd25;
-        }
-        .builder-toolbar-btn {
-            margin-right: 10px;
-        }
-        .builder-inspector {
-            background: #fff;
-            padding: 16px 24px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            min-width: 280px;
-        }
-        .inspector-overlay {
-            position: fixed;
-            top: 82px;
-            right: 32px;
-            z-index: 3000;
-        }
-        .builder-toolbar-btn.active {
-            background: #e7f1ff;
-        }
-        .row-actions, .col-actions {
-            position: absolute;
-            right: 8px;
-            top: 8px;
-            z-index: 3;
-        }
-        .row-actions .btn, .col-actions .btn {
-            margin-left: 2px;
-        }
-        .editable-text {
-            min-height: 36px;
-            cursor: text;
-        }
-        .builder-empty-help {
-            color: #8692ad;
-            font-size: 1.3em;
-            text-align: center;
-            margin-top: 90px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Bootstrap Grid Visual Builder</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <!-- Bootstrap 5 CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons for toolbar buttons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: #f8f9fa;
+    }
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    #toolbar {
+      background: #343a40;
+      color: white;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    #toolbar .btn {
+      color: white !important;
+    }
+    #builder-container {
+      flex: 1 1 auto;
+      padding: 2rem;
+      overflow-y: auto;
+      background: #ffffff;
+    }
+    .builder-row {
+      border: 2px dashed #adb5bd;
+      border-radius: .5rem;
+      margin-bottom: 1.5rem;
+      padding: 1rem 0.5rem 0 0.5rem;
+      position: relative;
+      background: #f1f3f4;
+    }
+    .builder-row.selected {
+      border: 2px solid #0d6efd;
+    }
+    .builder-col {
+      min-height: 80px;
+      position: relative;
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: .4rem;
+      margin-bottom: 1rem;
+      margin-top: 1rem;
+      margin-right: 0.5rem;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      overflow: visible;
+      transition: box-shadow .2s;
+    }
+    .builder-col.selected {
+      box-shadow: 0 0 8px 2px #0d6efd55;
+      border: 2px solid #0d6efd;
+    }
+    .col-controls {
+      position: absolute;
+      top: -12px;
+      right: 1px;
+      z-index: 3;
+      display: flex;
+      gap: 2px;
+    }
+    .col-controls .btn {
+      font-size: 0.85rem !important;
+      padding: 0.1rem 0.4rem;
+      min-width: 20px;
+      min-height: 22px;
+      background: #f8f9fa;
+      border: 1px solid #adb5bd;
+    }
+    .row-controls {
+      position: absolute;
+      top: -32px;
+      right: 6px;
+      z-index: 2;
+    }
+    .row-controls .btn {
+      padding: 0.1rem .6rem;
+      font-size: 0.98rem;
+      background: #495057;
+      color: #fff;
+      border: none;
+    }
+    .setup-panel {
+      background: #e9ecef;
+      padding: 0.7rem;
+      border-radius: 0.5rem;
+    }
+    .toolbar-spacer {
+      flex: 1 0 auto;
+    }
+    .download-btn {
+      background: #198754 !important;
+    }
+    .content-editable {
+      width: 100%;
+      min-height: 40px;
+      border: none;
+      outline: none;
+      padding: 8px 4px;
+      background: transparent;
+    }
+    .img-preview {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: .5rem auto;
+    }
+    @media (max-width: 767px) {
+      #builder-container {
+        padding: .5rem;
+      }
+      .builder-row {
+        padding: .5rem .2rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <!-- Toolbar -->
-    <nav class="navbar navbar-expand-lg navbar-light grid-builder-toolbar mb-4">
-        <div class="container-fluid">
-            <a class="navbar-brand fw-bold" href="#"><i class="bi bi-columns-gap"></i> Grid Builder</a>
-            <div class="navbar-nav flex-row">
-                <button class="btn btn-outline-primary builder-toolbar-btn" id="add-row-btn" title="Add Row">
-                    <i class="bi bi-grid-3x2-gap"></i> Add Row
-                </button>
-                <button class="btn btn-outline-secondary builder-toolbar-btn d-none" id="add-col-btn" title="Add Column">
-                    <i class="bi bi-layout-split"></i> Add Column
-                </button>
-                <button class="btn btn-outline-success builder-toolbar-btn d-none" id="add-text-btn" title="Add Text">
-                    <i class="bi bi-fonts"></i> Add Text
-                </button>
-                <button class="btn btn-outline-info builder-toolbar-btn d-none" id="add-image-btn" title="Add Image">
-                    <i class="bi bi-card-image"></i> Add Image
-                </button>
-                <button class="btn btn-warning ms-2 builder-toolbar-btn" id="download-btn" title="Download Layout">
-                    <i class="bi bi-download"></i> Download
-                </button>
+  <div id="toolbar">
+    <button id="add-row-btn" class="btn btn-primary" title="Add Row"><i class="bi bi-layout-three-columns"></i> Row</button>
+    <button id="add-col-btn" class="btn btn-outline-primary" title="Add Column (to selected row)"><i class="bi bi-columns-gap"></i> Column</button>
+    <button id="add-text-btn" class="btn btn-outline-secondary" title="Add Text (to selected column)"><i class="bi bi-fonts"></i> Text</button>
+    <button id="add-image-btn" class="btn btn-outline-secondary" title="Add Image (to selected column)"><i class="bi bi-image"></i> Image</button>
+    <div class="toolbar-spacer"></div>
+    <button id="download-btn" class="btn download-btn" title="Download HTML layout"><i class="bi bi-download"></i> Download</button>
+  </div>
+  <div id="builder-container"></div>
+
+  <!-- Modal for image upload or parameters -->
+  <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="imageModalLabel">Insert Image</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="imageForm">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="imgUrlInput" class="form-label">Image URL</label>
+              <input type="url" class="form-control" id="imgUrlInput" placeholder="https://example.com/image.jpg" required>
             </div>
-        </div>
-    </nav>
-
-    <!-- Canvas -->
-    <div class="grid-builder-canvas container-fluid" id="canvas">
-        <div class="builder-empty-help" id="empty-help">
-            <i class="bi bi-arrow-up"></i> Click "Add Row" above to begin building your layout.
-        </div>
+            <div class="mb-3">
+              <label for="imgAltInput" class="form-label">Alt Text</label>
+              <input type="text" class="form-control" id="imgAltInput" placeholder="Alternative text">
+            </div>
+            <div id="imgUrlFeedback" class="form-text text-danger d-none">Please enter a valid image URL.</div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Insert</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </form>
+      </div>
     </div>
-
-    <!-- Inspector -->
-    <div class="inspector-overlay" id="inspector-overlay" style="display:none;">
-        <div class="builder-inspector shadow-sm" id="inspector">
-            <!-- Dynamically injected -->
-        </div>
-    </div>
-
-    <!-- Bootstrap Bundle JS (with Popper) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Layout Builder Logic -->
-    <script>
-        /*
-        #################
-        ## STATE MODEL ##
-        #################
-        */
-        let layout = []; // Array of {id, columns: [ ... ]}
-        let builderNextId = 1;
-
-        /**
-         * Each Row: { id, columns: [ ... ] }
-         * Each Column: {
-         *   id,
-         *   settings: {lg, md, sm, offsetLg, offsetMd, offsetSm},
-         *   content: [{type: 'text'|'image', ...}]
-         * }
-         * Each Content Item: 
-         *   - type: 'text', {text: '...'}
-         *   - type: 'image', {src: 'url', alt: ''}
-         */
-
-        let selectedRowId = null, selectedColId = null, selectedContent = null;
-
-        /*
-        ####################
-        ## DOM MANAGEMENT ##
-        ####################
-        */
-        const canvas = document.getElementById('canvas');
-        const inspectorOverlay = document.getElementById('inspector-overlay');
-        const inspector = document.getElementById('inspector');
-        const emptyHelp = document.getElementById('empty-help');
-        const addRowBtn = document.getElementById('add-row-btn');
-        const addColBtn = document.getElementById('add-col-btn');
-        const addTextBtn = document.getElementById('add-text-btn');
-        const addImageBtn = document.getElementById('add-image-btn');
-        const downloadBtn = document.getElementById('download-btn');
-
-        function genId(prefix = "") {
-            return prefix + (builderNextId++);
-        }
-
-        /* RENDER LAYOUT */
-        function renderLayout() {
-            canvas.innerHTML = "";
-            if (layout.length === 0) {
-                emptyHelp.style.display = "";
-                disableToolbarActions();
-                return;
-            }
-            emptyHelp.style.display = "none";
-            layout.forEach(row => {
-                const rowDiv = document.createElement('div');
-                rowDiv.className = 'row row-builder mb-3';
-                rowDiv.setAttribute('data-row-id', row.id);
-                if (row.id === selectedRowId) rowDiv.classList.add('selected');
-                // Row actions
-                rowDiv.appendChild(makeRowActions(row.id));
-                // Columns
-                if (row.columns.length > 0) {
-                    row.columns.forEach(col => {
-                        rowDiv.appendChild(renderCol(col, row.id));
-                    });
-                } else {
-                    const place = document.createElement('div');
-                    place.className = "text-muted fst-italic px-2";
-                    place.innerHTML = `<i class="bi bi-plus-slash-minus"></i> Click "Add Column" with row selected`;
-                    rowDiv.appendChild(place);
-                }
-                canvas.appendChild(rowDiv);
-            });
-            enableAppropriateToolbar();
-        }
-
-        function renderCol(col, rowId) {
-            const colDiv = document.createElement('div');
-            colDiv.className = getBootstrapColClasses(col.settings) + ' col-builder mx-1 mb-2';
-            colDiv.setAttribute('data-col-id', col.id);
-            colDiv.setAttribute('data-row-id', rowId);
-            if (col.id === selectedColId) colDiv.classList.add('selected');
-            // Col actions
-            colDiv.appendChild(makeColActions(col.id, rowId));
-            // Content
-            if (col.content.length === 0) {
-                const em = document.createElement('div');
-                em.className = 'text-muted fst-italic editable-text px-2';
-                em.innerHTML = `<i class="bi bi-plus"></i> Add Text or Image using the toolbar`;
-                colDiv.appendChild(em);
-            } else {
-                col.content.forEach((item, idx) => {
-                    if (item.type === 'text') {
-                        const p = document.createElement('div');
-                        p.className = 'editable-text p-1 mb-2 border rounded bg-light';
-                        p.contentEditable = true;
-                        p.textContent = item.text;
-                        p.setAttribute('data-content-idx', idx);
-                        p.setAttribute('spellcheck', "true");
-                        p.addEventListener('input', function() {
-                            col.content[idx].text = this.textContent;
-                        });
-                        p.addEventListener('click', function(e) {
-                            e.stopPropagation();
-                            selectContent(rowId, col.id, idx);
-                        });
-                        if(selectedContent && selectedContent.rowId===rowId && selectedContent.colId===col.id && selectedContent.contentIdx===idx) {
-                            p.classList.add("border-primary");
-                        }
-                        colDiv.appendChild(p);
-                    } else if (item.type === 'image') {
-                        const div = document.createElement('div');
-                        div.className = 'p-1 mb-2 position-relative';
-                        div.style.display="flex";
-                        div.style.alignItems = "center";
-                        div.style.background = "#eef6f6";
-                        div.style.borderRadius = "6px";
-                        div.innerHTML = `<img src="${item.src}" alt="${item.alt||""}" style="max-width:100%;max-height:72px;" class="me-2"><span class="text-muted small">${item.alt || ''}</span>
-                        <button class="btn btn-sm btn-outline-danger position-absolute top-0 end-0" title="Remove Image">
-                            <i class="bi bi-trash"></i>
-                        </button>`;
-                        div.querySelector("button").onclick = function(e) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            col.content.splice(idx, 1);
-                            renderLayout();
-                        };
-                        div.addEventListener('click', function(e) {
-                            e.stopPropagation();
-                            selectContent(rowId, col.id, idx);
-                        });
-                        if (selectedContent && selectedContent.rowId===rowId && selectedContent.colId===col.id && selectedContent.contentIdx===idx){
-                            div.classList.add("border-primary");
-                            div.style.border = "2px solid #0d6efd";
-                        }
-                        colDiv.appendChild(div);
-                    }
-                });
-            }
-            colDiv.addEventListener('click', function(e) {
-                e.stopPropagation();
-                selectCol(rowId, col.id);
-            });
-            return colDiv;
-        }
-
-        function getBootstrapColClasses(settings) {
-            let classes = [];
-            if (settings.lg) classes.push(`col-lg-${settings.lg}`);
-            if (settings.md) classes.push(`col-md-${settings.md}`);
-            if (settings.sm) classes.push(`col-sm-${settings.sm}`);
-            if (settings.offsetLg) classes.push(`offset-lg-${settings.offsetLg}`);
-            if (settings.offsetMd) classes.push(`offset-md-${settings.offsetMd}`);
-            if (settings.offsetSm) classes.push(`offset-sm-${settings.offsetSm}`);
-            if (!settings.lg && !settings.md && !settings.sm) classes.push('col'); // fallback
-            return classes.join(' ');
-        }
-
-        function makeRowActions(rowId) {
-            const div = document.createElement('div');
-            div.className = "row-actions";
-            div.innerHTML = `
-                <button class="btn btn-sm btn-outline-success me-1" title="Add Column"><i class="bi bi-layout-split"></i></button>
-                <button class="btn btn-sm btn-outline-primary me-1" title="Settings"><i class="bi bi-sliders2-vertical"></i></button>
-                <button class="btn btn-sm btn-outline-danger" title="Remove Row"><i class="bi bi-x"></i></button>
-            `;
-            div.children[0].onclick = function(e) { e.stopPropagation(); addColumn(rowId); };
-            div.children[1].onclick = function(e) { e.stopPropagation(); selectRow(rowId); openRowInspector(rowId); };
-            div.children[2].onclick = function(e) { e.stopPropagation(); removeRow(rowId); };
-            return div;
-        }
-
-        function makeColActions(colId, rowId) {
-            const div = document.createElement('div');
-            div.className = "col-actions";
-            div.innerHTML = `
-                <button class="btn btn-sm btn-outline-success me-1" title="Add Text"><i class="bi bi-fonts"></i></button>
-                <button class="btn btn-sm btn-outline-info me-1" title="Add Image"><i class="bi bi-card-image"></i></button>
-                <button class="btn btn-sm btn-outline-primary me-1" title="Settings"><i class="bi bi-sliders"></i></button>
-                <button class="btn btn-sm btn-outline-danger" title="Remove Column"><i class="bi bi-x"></i></button>
-            `;
-            div.children[0].onclick = function(e) { e.stopPropagation(); addText(rowId, colId); };
-            div.children[1].onclick = function(e) { e.stopPropagation(); addImage(rowId, colId); };
-            div.children[2].onclick = function(e) { e.stopPropagation(); selectCol(rowId, colId); openColInspector(rowId, colId); };
-            div.children[3].onclick = function(e) { e.stopPropagation(); removeCol(rowId, colId); };
-            return div;
-        }
-
-        function enableAppropriateToolbar() {
-            // Toolbar disable/enable logic based on selected
-            if (selectedRowId && !selectedColId && !selectedContent) {
-                // Row selected
-                addColBtn.classList.remove('d-none');
-                addTextBtn.classList.add('d-none');
-                addImageBtn.classList.add('d-none');
-            } else if (selectedColId) {
-                addColBtn.classList.add('d-none');
-                addTextBtn.classList.remove('d-none');
-                addImageBtn.classList.remove('d-none');
-            } else {
-                disableToolbarActions();
-            }
-        }
-        function disableToolbarActions() {
-            addColBtn.classList.add('d-none');
-            addTextBtn.classList.add('d-none');
-            addImageBtn.classList.add('d-none');
-        }
-
-        /*
-        #########################
-        ## STATE CHANGE EVENTS ##
-        #########################
-        */
-        function addRow() {
-            const row = { id: genId("row"), columns: [] };
-            layout.push(row);
-            selectedRowId = row.id;
-            selectedColId = null;
-            selectedContent = null;
-            renderLayout();
-            openRowInspector(row.id);
-        }
-
-        function addColumn(rowId) {
-            const row = layout.find(r => r.id == rowId);
-            if (!row) return;
-            if (row.columns.length >= 12) {
-                alert("This row already has 12 columns. Adjust or remove some first.");
-                return;
-            }
-            // Default to col-lg-4 col-md-6 col-sm-12
-            let colDefaults = { lg: 4, md: 6, sm: 12, offsetLg: 0, offsetMd: 0, offsetSm: 0 };
-            if (row.columns.length >= 1) {
-                // Try to calculate remaining space
-                let usedLg = row.columns.reduce((a,c)=>a+(+c.settings.lg||0),0);
-                let restLg = 12-usedLg;
-                if (restLg>0) colDefaults.lg = restLg;
-            }
-            const col = { id: genId("col"), settings: {...colDefaults}, content: [] };
-            row.columns.push(col);
-            selectedRowId = rowId;
-            selectedColId = col.id;
-            selectedContent = null;
-            renderLayout();
-            openColInspector(rowId, col.id);
-        }
-
-        function addText(rowId, colId) {
-            const col = findCol(rowId, colId);
-            if (!col) return;
-            col.content.push({ type: 'text', text: 'Click to edit your text.' });
-            selectedRowId = rowId;
-            selectedColId = colId;
-            selectedContent = {rowId, colId, contentIdx: col.content.length - 1};
-            renderLayout();
-        }
-
-        function addImage(rowId, colId) {
-            // Open an input dialog
-            const url = prompt("Paste an image URL:");
-            if (!url) return;
-            const alt = prompt("Image alt text:", "");
-            const col = findCol(rowId, colId);
-            col.content.push({ type: 'image', src: url, alt: alt });
-            renderLayout();
-        }
-
-        function removeRow(rowId) {
-            if (!confirm("Remove this row and all its columns?")) return;
-            layout = layout.filter(r => r.id != rowId);
-            if (selectedRowId === rowId) selectedRowId = null;
-            selectedColId = null;
-            selectedContent = null;
-            renderLayout();
-            closeInspector();
-        }
-
-        function removeCol(rowId, colId) {
-            // Remove col from row
-            const row = findRow(rowId);
-            if(!row) return;
-            row.columns = row.columns.filter(col => col.id != colId);
-            if (selectedColId === colId) selectedColId = null;
-            selectedContent = null;
-            renderLayout();
-            closeInspector();
-        }
-
-        function findRow(rowId) {
-            return layout.find(row => row.id == rowId);
-        }
-        function findCol(rowId, colId) {
-            const row = layout.find(row => row.id == rowId);
-            if (!row) return null;
-            return row.columns.find(col => col.id == colId);
-        }
-        function selectRow(rowId) {
-            selectedRowId = rowId;
-            selectedColId = null;
-            selectedContent = null;
-            renderLayout();
-            openRowInspector(rowId);
-        }
-        function selectCol(rowId, colId) {
-            selectedRowId = rowId;
-            selectedColId = colId;
-            selectedContent = null;
-            renderLayout();
-            openColInspector(rowId, colId);
-        }
-        function selectContent(rowId, colId, contentIdx) {
-            selectedRowId = rowId;
-            selectedColId = colId;
-            selectedContent = {rowId, colId, contentIdx};
-            // Could have future content-specific inspector
-            renderLayout();
-        }
-
-        function openRowInspector(rowId) {
-            const row = findRow(rowId);
-            if (!row) return;
-            inspectorOverlay.style.display = "";
-            inspector.innerHTML = `
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <div><i class="bi bi-grid-3x2-gap"></i> <b>Row Config</b></div>
-                    <button class="btn-close" aria-label="Close"></button>
-                </div>
-                <div>
-                    <b>Columns:</b> <span class="text-muted">${row.columns.length}</span>
-                    <div class="text-muted small mt-1">Add columns to this row. Each row can contain up to 12 columns in bootstrap's grid.</div>
-                </div>
-            `;
-            inspector.querySelector(".btn-close").onclick = closeInspector;
-        }
-
-        function openColInspector(rowId, colId) {
-            const col = findCol(rowId, colId);
-            if (!col) return;
-            inspectorOverlay.style.display = "";
-            // Column settings
-            const s = col.settings;
-            inspector.innerHTML = `
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <div><i class="bi bi-layout-split"></i> <b>Column Config</b></div>
-                    <button class="btn-close" aria-label="Close"></button>
-                </div>
-                <form id="col-settings-form">
-                    <div class="mb-2">
-                        <label class="form-label mb-1">Large screens (≥992px) <span class="text-muted">(col-lg-*)</span></label>
-                        <div class="input-group">
-                            <input min="1" max="12" type="number" name="lg" class="form-control" value="${s.lg||''}" style="width:70px;" placeholder="Auto">
-                            <span class="input-group-text">/12</span>
-                            <input min="0" max="11" type="number" name="offsetLg" class="form-control" value="${s.offsetLg||0}" style="width:50px;" placeholder="Offset">
-                            <span class="input-group-text">offset</span>
-                        </div>
-                    </div>
-                    <div class="mb-2">
-                        <label class="form-label mb-1">Medium screens (≥768px) <span class="text-muted">(col-md-*)</span></label>
-                        <div class="input-group">
-                            <input min="1" max="12" type="number" name="md" class="form-control" value="${s.md||''}" style="width:70px;" placeholder="Auto">
-                            <span class="input-group-text">/12</span>
-                            <input min="0" max="11" type="number" name="offsetMd" class="form-control" value="${s.offsetMd||0}" style="width:50px;" placeholder="Offset">
-                            <span class="input-group-text">offset</span>
-                        </div>
-                    </div>
-                    <div class="mb-2">
-                        <label class="form-label mb-1">Small screens (&lt;768px) <span class="text-muted">(col-sm-*)</span></label>
-                        <div class="input-group">
-                            <input min="1" max="12" type="number" name="sm" class="form-control" value="${s.sm||''}" style="width:70px;" placeholder="Auto">
-                            <span class="input-group-text">/12</span>
-                            <input min="0" max="11" type="number" name="offsetSm" class="form-control" value="${s.offsetSm||0}" style="width:50px;" placeholder="Offset">
-                            <span class="input-group-text">offset</span>
-                        </div>
-                    </div>
-                    <div class="d-grid mt-3">
-                        <button type="submit" class="btn btn-primary">Apply</button>
-                    </div>
-                </form>
-            `;
-            inspector.querySelector(".btn-close").onclick = closeInspector;
-            inspector.querySelector("#col-settings-form").onsubmit = function(e){
-                e.preventDefault();
-                const data = new FormData(this);
-                s.lg = parseInt(data.get("lg"))||undefined;
-                s.md = parseInt(data.get("md"))||undefined;
-                s.sm = parseInt(data.get("sm"))||undefined;
-                s.offsetLg = parseInt(data.get("offsetLg"))||0;
-                s.offsetMd = parseInt(data.get("offsetMd"))||0;
-                s.offsetSm = parseInt(data.get("offsetSm"))||0;
-                closeInspector();
-                renderLayout();
-            };
-        }
-        function closeInspector() {
-            inspectorOverlay.style.display = "none";
-        }
-
-        // Deselect if click outside
-        document.addEventListener('click', function(e) {
-            selectedColId = null;
-            selectedRowId = null;
-            selectedContent = null;
-            renderLayout();
-            closeInspector();
-        });
-
-        // Prevent click through in inspector
-        inspectorOverlay.addEventListener('click', function(e) {
-            if (e.target===this) closeInspector();
-        });
-
-        /*
-        ############
-        ## BIND UI ##
-        ############
-        */
-        addRowBtn.onclick = function(e) {
-            addRow();
-        };
-        addColBtn.onclick = function(e) {
-            if (selectedRowId) addColumn(selectedRowId);
-        };
-        addTextBtn.onclick = function(e) {
-            if (selectedRowId && selectedColId) addText(selectedRowId, selectedColId);
-        };
-        addImageBtn.onclick = function(e) {
-            if (selectedRowId && selectedColId) addImage(selectedRowId, selectedColId);
-        };
-        downloadBtn.onclick = function(e) {
-            e.preventDefault();
-            downloadLayoutHTML();
-        };
-        // Keyboard shortcuts (optional)
-        window.addEventListener('keydown',function(e){
-            if(e.ctrlKey && e.key==='z') {
-                // undo placeholder for future
-                e.preventDefault();
-            }
-        });
-
-        /*
-        ###################
-        ## EXPORT LAYOUT ##
-        ###################
-        */
-        function downloadLayoutHTML() {
-            const html = '<!DOCTYPE html>\n<html lang="en">\n<head>\n' +
-                '  <meta charset="UTF-8">\n' +
-                '  <title>Bootstrap Layout</title>\n' +
-                '  <meta name="viewport" content="width=device-width, initial-scale=1">\n' +
-                '  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">\n' +
-                '</head>\n<body>\n' +
-                '  <div class="container-fluid my-4">\n' +
-                renderExportedLayout() +
-                '  </div>\n' +
-                '<!-- Bootstrap JS -->\n' +
-                '<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>\n' +
-                '</body>\n</html>';
-            const blob = new Blob([html], {type: "text/html"});
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = "bootstrap-layout.html";
-            document.body.appendChild(a);
-            a.click();
-            setTimeout(()=>{document.body.removeChild(a);},10);
-        }
-
-        function renderExportedLayout() {
-            // Export HTML for current state
-            return layout.map(row =>
-                `    <div class="row mb-4">\n` +
-                row.columns.map(col =>
-                    `      <div class="${getBootstrapColClasses(col.settings)} mb-2">\n` +
-                    col.content.map(item => {
-                        if (item.type==='text') return `        <p>${escapeHtml(item.text)}</p>\n`;
-                        if (item.type==='image') return `        <img src="${escapeHtml(item.src)}" alt="${escapeHtml(item.alt||'')}" class="img-fluid mb-2">\n`;
-                        return "";
-                    }).join('') +
-                    `      </div>\n`
-                ).join('') +
-                `    </div>\n`
-            ).join('');
-        }
-        function escapeHtml(str) {
-            return (str||'').replace(/[&<>"']/g, function(m) {
-                return ({
-                    '&': '&amp;',
-                    '<': '&lt;',
-                    '>': '&gt;',
-                    '"': '&quot;',
-                    "'": '&#39;'
-                }[m]);
-            });
-        }
-
-        // Initial render
-        renderLayout();
-
-    </script>
+  </div>
+  <!-- Bootstrap 5 JS (for modal/dialog) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
