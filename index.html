@@ -2,48 +2,284 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Bootstrap Visual Page Builder</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS (CDN) -->
+    <title>Bootstrap Grid Layout Builder</title>
+    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <style>
+        body {
+            padding: 2rem;
+            background: #f8f9fa;
+        }
+        .builder-controls {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .layout-row {
+            border: 1px dashed #6c757d;
+            margin-bottom: 1rem;
+            background: #fff;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            position: relative;
+        }
+        .layout-col {
+            border: 2px solid #6c757d;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            min-height: 70px;
+            background: #e9ecef;
+            position: relative;
+        }
+        .col-controls {
+            position: absolute;
+            top: 4px;
+            right: 8px;
+            z-index: 10;
+        }
+        .row-controls {
+            position: absolute;
+            top: 4px;
+            left: 8px;
+            z-index: 10;
+        }
+        .code-output {
+            white-space: pre;
+            background: #212529;
+            color: #f8f9fa;
+            border-radius: .5rem;
+            padding: 1rem;
+            overflow: auto;
+            font-size: 0.9rem;
+            max-height: 30vh;
+        }
+        [contenteditable="true"]:focus {
+            outline: 2px solid #0d6efd;
+            background: #e7f1ff;
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-light bg-light px-3 mb-2">
-        <a class="navbar-brand" href="#">Bootstrap Visual Page Builder</a>
-        <button id="downloadBtn" class="btn btn-primary">Download HTML</button>
-    </nav>
-    
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar with draggable components -->
-            <div class="col-md-3 border-end d-flex flex-column p-0" id="componentSidebar">
-                <div class="p-3 border-bottom">
-                    <h5>Prebuilt Components</h5>
-                </div>
-                <div id="componentList" class="flex-grow-1 overflow-auto py-2"></div>
-            </div>
-
-            <!-- Main builder area -->
-            <div class="col-md-9">
-                <h5 class="mt-3">Build Area (Drag and Drop)</h5>
-                <div 
-                    id="builderArea"
-                    class="builder-area mt-2 mb-5"
-                    ondragover="event.preventDefault();"
-                    ondrop="handleDrop(event);"
-                >
-                    <p class="text-muted text-center my-5" id="builderPlaceholder">
-                        Drag components here to start building your page!
-                    </p>
-                </div>
-            </div>
+    <div class="container">
+        <h1 class="mb-3">Bootstrap Grid Layout Builder</h1>
+        <div class="builder-controls mb-4">
+            <button class="btn btn-primary" id="add-row-btn" type="button">Add Row</button>
         </div>
+        <div id="layout-builder"></div>
+        <h4 class="mt-5">Generated Bootstrap HTML</h4>
+        <div class="code-output" id="code-output"></div>
     </div>
-
-    <!-- Bootstrap JS (for interactive components in preview) -->
+    <!-- Bootstrap Bundle JS (for dropdowns/buttons styling; no JQ needed) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="builder.js"></script>
+    <script>
+    // --- Data Model ---
+    let grid = [
+        // Sample starter row
+        {
+            columns: [
+                {col: {lg:6, md:6, sm:12, offset:0}},
+                {col: {lg:6, md:6, sm:12, offset:0}},
+            ]
+        }
+    ];
+
+    // -- DOM Elements --
+    const builder = document.getElementById("layout-builder");
+    const codeOutput = document.getElementById("code-output");
+    const addRowBtn = document.getElementById("add-row-btn");
+
+    // --- Rendering Functions ---
+
+    function renderGrid() {
+        builder.innerHTML = ''; // clear
+
+        grid.forEach((row, rowIdx) => {
+            const rowDiv = document.createElement('div');
+            rowDiv.className = 'layout-row mb-3';
+
+            // Row controls
+            const rowCtrl = document.createElement('div');
+            rowCtrl.className = 'row-controls';
+            rowCtrl.innerHTML = `
+                <button class="btn btn-sm btn-outline-danger" title="Delete Row" data-row="${rowIdx}">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <button class="btn btn-sm btn-outline-success" title="Add Column" data-row="${rowIdx}">
+                    <span class="bi bi-plus"></span>+
+                </button>
+            `;
+            rowDiv.appendChild(rowCtrl);
+
+            // Row columns
+            const bootstrapRow = document.createElement('div');
+            bootstrapRow.className = 'row gy-2';
+            row.columns.forEach((col, colIdx) => {
+                // Compute column class string
+                const colClasses = [];
+                if (col.col.lg) colClasses.push(`col-lg-${col.col.lg}`);
+                if (col.col.md) colClasses.push(`col-md-${col.col.md}`);
+                if (col.col.sm) colClasses.push(`col-sm-${col.col.sm}`);
+                if (col.col.offset) {
+                    if (col.col.offset.lg) colClasses.push(`offset-lg-${col.col.offset.lg}`);
+                    if (col.col.offset.md) colClasses.push(`offset-md-${col.col.offset.md}`);
+                    if (col.col.offset.sm) colClasses.push(`offset-sm-${col.col.offset.sm}`);
+                    if (typeof col.col.offset === "number" && col.col.offset)
+                        colClasses.push(`offset-${col.col.offset}`);
+                }
+                if (colClasses.length === 0) colClasses.push('col');
+
+                const colDiv = document.createElement('div');
+                colDiv.className = "layout-col position-relative mb-2 " + colClasses.join(' ');
+                colDiv.setAttribute('data-row', rowIdx);
+                colDiv.setAttribute('data-col', colIdx);
+
+                // Column controls
+                const colCtrl = document.createElement('div');
+                colCtrl.className = 'col-controls btn-group btn-group-sm';
+                colCtrl.innerHTML = `
+                    <button class="btn btn-outline-secondary" title="Edit Column" data-row="${rowIdx}" data-col="${colIdx}">
+                        <span class="bi bi-pencil"></span>✎
+                    </button>
+                    <button class="btn btn-outline-danger" title="Delete Column" data-row="${rowIdx}" data-col="${colIdx}">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                `;
+                colDiv.appendChild(colCtrl);
+
+                // Column content: Show col settings
+                const label = document.createElement("div");
+                label.innerHTML = `
+                    <div><code>${colClasses.join(' ')}</code></div>
+                `;
+                label.style.pointerEvents = "none";
+                colDiv.appendChild(label);
+
+                // If being edited, show editor
+                if (col._editing) {
+                    const colEdit = document.createElement('form');
+                    colEdit.className = 'mt-2';
+                    colEdit.innerHTML = `
+                        <div class="row g-1">
+                            <div class="col-3">
+                                <input type="number" min="1" max="12" class="form-control form-control-sm" name="lg" value="${col.col.lg||''}" placeholder="lg">
+                            </div>
+                            <div class="col-3">
+                                <input type="number" min="1" max="12" class="form-control form-control-sm" name="md" value="${col.col.md||''}" placeholder="md">
+                            </div>
+                            <div class="col-3">
+                                <input type="number" min="1" max="12" class="form-control form-control-sm" name="sm" value="${col.col.sm||''}" placeholder="sm">
+                            </div>
+                            <div class="col-3">
+                                <input type="number" min="0" max="11" class="form-control form-control-sm" name="offset" value="${col.col.offset||''}" placeholder="offset">
+                            </div>
+                        </div>
+                        <div class="pt-2">
+                            <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                            <button type="button" class="btn btn-sm btn-link text-danger" name="cancel">Cancel</button>
+                        </div>
+                    `;
+                    colEdit.onsubmit = (e) => {
+                        e.preventDefault();
+                        const data = Object.fromEntries(new FormData(colEdit).entries());
+                        // Update model
+                        Object.assign(col.col, {
+                            lg: data.lg ? parseInt(data.lg) : undefined,
+                            md: data.md ? parseInt(data.md) : undefined,
+                            sm: data.sm ? parseInt(data.sm) : undefined,
+                            offset: data.offset ? parseInt(data.offset) : 0
+                        });
+                        col._editing = false;
+                        renderGrid();
+                        renderCode();
+                    }
+                    colEdit.querySelector('[name="cancel"]').onclick = () => {
+                        col._editing = false;
+                        renderGrid();
+                    }
+                    colDiv.appendChild(colEdit);
+                }
+
+                bootstrapRow.appendChild(colDiv);
+            });
+
+            rowDiv.appendChild(bootstrapRow);
+            builder.appendChild(rowDiv);
+
+            // Row Control Bindings
+            rowCtrl.querySelector('.btn-outline-danger').onclick = () => {
+                grid.splice(rowIdx, 1);
+                renderGrid();
+                renderCode();
+            };
+            rowCtrl.querySelector('.btn-outline-success').onclick = () => {
+                row.columns.push({col:{lg:12, md:12, sm:12, offset:0}});
+                renderGrid();
+                renderCode();
+            };
+
+            // Column Control Bindings
+            bootstrapRow.querySelectorAll('.col-controls .btn-outline-danger').forEach(btn => {
+                btn.onclick = (e) => {
+                    let idx = parseInt(btn.getAttribute('data-col'));
+                    row.columns.splice(idx, 1);
+                    renderGrid();
+                    renderCode();
+                };
+            });
+            bootstrapRow.querySelectorAll('.col-controls .btn-outline-secondary').forEach(btn => {
+                btn.onclick = (e) => {
+                    let idx = parseInt(btn.getAttribute('data-col'));
+                    if (!row.columns[idx]._editing) {
+                        row.columns[idx]._editing = true;
+                        renderGrid();
+                    }
+                };
+            });
+        });
+
+        // If no rows, show starter message
+        if (grid.length === 0) {
+            builder.innerHTML = `<div class="alert alert-secondary mt-4">No rows yet. Click <strong>Add Row</strong> to start building your layout.</div>`;
+        }
+    }
+
+    function renderCode() {
+        // Generate Bootstrap grid HTML (as text)
+        let html = '';
+        grid.forEach(row => {
+            html += `  <div class="row">\n`;
+            row.columns.forEach(col => {
+                const colClasses = [];
+                if (col.col.lg) colClasses.push(`col-lg-${col.col.lg}`);
+                if (col.col.md) colClasses.push(`col-md-${col.col.md}`);
+                if (col.col.sm) colClasses.push(`col-sm-${col.col.sm}`);
+                if (col.col.offset) {
+                    if (col.col.offset.lg) colClasses.push(`offset-lg-${col.col.offset.lg}`);
+                    if (col.col.offset.md) colClasses.push(`offset-md-${col.col.offset.md}`);
+                    if (col.col.offset.sm) colClasses.push(`offset-sm-${col.col.offset.sm}`);
+                    if (typeof col.col.offset === "number" && col.col.offset)
+                        colClasses.push(`offset-${col.col.offset}`);
+                }
+                if (colClasses.length === 0) colClasses.push('col');
+                html += `    <div class="${colClasses.join(' ')}">\n      <!-- Content here -->\n    </div>\n`;
+            });
+            html += `  </div>\n`;
+        });
+        codeOutput.textContent = html.length ? html : '<!-- No layout rows defined -->';
+    }
+
+    // --- UI Control Bindings ---
+    addRowBtn.onclick = () => {
+        grid.push({columns:[{col:{lg:12, md:12, sm:12, offset:0}}]});
+        renderGrid();
+        renderCode();
+    };
+
+    // --- Initial Render ---
+    renderGrid();
+    renderCode();
+    </script>
 </body>
 </html>
