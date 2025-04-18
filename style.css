@@ -1,0 +1,74 @@
+body {
+    background-color: #f9f9f9;
+}
+
+#componentSidebar {
+    min-height: 80vh;
+    max-height: 92vh;
+}
+
+#componentList {
+    padding: 0 1rem;
+}
+
+.component-card {
+    border: 1px solid #e2e6ea;
+    border-radius: 0.3rem;
+    background: #fff;
+    cursor: grab;
+    margin-bottom: 1rem;
+    transition: box-shadow 0.2s;
+    user-select: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    padding: 0.75rem 1rem;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.component-card.dragging {
+    opacity: 0.4;
+}
+
+.builder-area {
+    min-height: 70vh;
+    border: 2px dashed #c3daf9;
+    background: white;
+    border-radius: 8px;
+    position: relative;
+    padding: 1.5rem;
+}
+
+#builderArea .component-instance {
+    margin-bottom: 1.3rem;
+    box-shadow: 0 3px 12px 0 rgba(13,110,253,0.07);
+    border-radius: 6px;
+    transition: background 0.18s;
+    position: relative;
+    background: #f7f7fa;
+    padding: 1rem;
+}
+
+.component-instance:hover {
+    background: #eef5fb;
+}
+
+.remove-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 5;
+    font-size: 1.1rem;
+    color: #c9302c;
+    background: white;
+    border: none;
+    outline: none;
+    padding: 2px 7px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.remove-btn:hover {
+    background: #f3d9d9;
+    color: #b7251b;
+}
